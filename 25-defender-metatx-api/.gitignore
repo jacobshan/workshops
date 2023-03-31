@@ -8,3 +8,4 @@ build
 .env
 relay.json
 autotask.json
+.DS_Store

@@ -23,6 +23,10 @@ module.exports = {
       url: 'https://rpc.goerli.mudit.blog',
       accounts: [process.env.PRIVATE_KEY],
     },
+    mumbai: {
+      url: "https://polygon-mumbai.g.alchemy.com/v2/xj1U7k2wTtIpXG00pfUdWBAEANb-JAs0",
+      accounts: [process.env.PRIVATE_KEY]
+    }
 
   }
 };
