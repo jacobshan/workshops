@@ -3,7 +3,7 @@ with pkgs;
 mkShell {
   buildInputs = [
     # Node.js
-    nodejs-16_x
+    nodejs-14_x
     yarn
     jq
   ];
