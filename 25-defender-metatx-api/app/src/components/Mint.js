@@ -1,27 +1,27 @@
 import { useRef, useState, useContext } from 'react';
-import { registerName } from '../eth/register';
+import { mintSushi } from '../eth/mint';
 import { EthereumContext } from "../eth/context";
 import { toast } from 'react-toastify';
 import './Register.css';
 
-function Register() {
-  const nameInput = useRef(null);
+function Mint() {
+  const tokenIDInput = useRef(null);
   const [submitting, setSubmitting] = useState(false);
-  const { registry, provider } = useContext(EthereumContext);
+  const { sushiCutie, provider } = useContext(EthereumContext);
 
   const sendTx = async (event) => {
     event.preventDefault();
-    const name = nameInput.current.value;
+    const tokenID = tokenIDInput.current.value;
     setSubmitting(true);
     
     try {
-      const response = await registerName(registry, provider, name);
+      const response = await mintSushi(sushiCutie, provider, tokenID);
       const hash = response.hash;
       const onClick = hash
         ? () => window.open(`https://mumbai.polygonscan.com/tx/${hash}`)
         : undefined;
       toast('Transaction sent!', { type: 'info', onClick });
-      nameInput.current.value = '';
+      tokenIDInput.current.value = '';
     } catch(err) {
       toast(err.message || err, { type: 'error' });
     } finally {
@@ -31,10 +31,10 @@ function Register() {
 
   return <div className="Container">
     <form onSubmit={sendTx}>
-      <input required={true} placeholder="Mint your SushiCutie here" ref={nameInput}></input>
+      <input required={true} placeholder="Mint your SushiCutie here" ref={tokenIDInput}></input>
       <button type="submit" disabled={submitting}>{submitting ? 'Minting...' : 'Mint'}</button>
     </form>
   </div>
 }
 
-export default Register;
+export default Mint;

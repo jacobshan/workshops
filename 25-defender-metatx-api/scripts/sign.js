@@ -2,7 +2,7 @@ const { ethers } = require('hardhat');
 const { signMetaTxRequest } = require('../src/signer');
 const { readFileSync, writeFileSync } = require('fs');
 
-const DEFAULT_NAME = 'sign-test';
+const DEFAULT_ID = 1;
 
 function getInstance(name) {
   const address = JSON.parse(readFileSync('deploy.json'))[name];
@@ -12,14 +12,14 @@ function getInstance(name) {
 
 async function main() {
   const forwarder = await getInstance('MinimalForwarder');
-  const registry = await getInstance("Registry");
+  const sushiCutie = await getInstance("SushiCutie");
 
-  const { NAME: name, PRIVATE_KEY: signer } = process.env;
+  const { TOKEN_ID: tokenId, PRIVATE_KEY: signer } = process.env;
   const from = new ethers.Wallet(signer).address;
-  console.log(`Signing registration of ${name || DEFAULT_NAME} as ${from}...`);
-  const data = registry.interface.encodeFunctionData('register', [name || DEFAULT_NAME]);
+  console.log(`Signing mint of token id ${tokenId || DEFAULT_ID} as ${from}...`);
+  const data = sushiCutie.interface.encodeFunctionData('mint', [tokenId || DEFAULT_ID, 1]);
   const result = await signMetaTxRequest(signer, forwarder, {
-    to: registry.address, from, data
+    to: sushiCutie.address, from, data
   });
 
   writeFileSync('tmp/request.json', JSON.stringify(result, null, 2));

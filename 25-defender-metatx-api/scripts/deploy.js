@@ -21,8 +21,8 @@ async function main() {
     .deploy()
     .then((f) => f.deployed())
 
-  const Registry = await ethers.getContractFactory('Registry')
-  const registry = await Registry.connect(relaySigner)
+  const SushiCutie = await ethers.getContractFactory('SushiCutie')
+  const sushiCutie = await SushiCutie.connect(relaySigner)
     .deploy(forwarder.address)
     .then((f) => f.deployed())
 
@@ -31,7 +31,7 @@ async function main() {
     JSON.stringify(
       {
         MinimalForwarder: forwarder.address,
-        Registry: registry.address,
+        SushiCutie: sushiCutie.address,
       },
       null,
       2
@@ -39,7 +39,7 @@ async function main() {
   )
 
   console.log(
-    `MinimalForwarder: ${forwarder.address}\nRegistry: ${registry.address}`
+    `MinimalForwarder: ${forwarder.address}\nSushiCutie: ${sushiCutie.address}`
   )
 }
 
